@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time 
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(r'C:\Users\advan\Documents\Ai-foundation\CompVisPython\FaceDetection\FaceVideos\1.mp4')
 pTime = 0
 
 mpFaceDetection = mp.solutions.face_detection
@@ -18,10 +18,10 @@ while True:
 
     if results.detections:
         for id, detection in enumerate(results.detections):
-            #mpDraw.draw_detection(img, detection)
-           # print(id, detection)
-           # print(detection.score)
-            print(detection.location_data.relative_bounding_box)
+            mpDraw.draw_detection(img, detection)
+            #print(id, detection)
+            #print(detection.score)
+            #print(detection.location_data.relative_bounding_box)
             bboxC = detection.location_data.relative_bounding_box
             ih, iw, ic = img.shape
             bbox = int(bboxC.xmin * iw), int(bboxC.ymin * ih), \

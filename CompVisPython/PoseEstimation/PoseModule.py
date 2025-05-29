@@ -44,7 +44,7 @@ class poseDetector():
         return lmList #Ultamitly lists back each landmark and than can use to indentify which landmarks I need.
 
 def main():
-    cap = cv2.VideoCapture(r'')
+    cap = cv2.VideoCapture(r'C:\Users\advan\Documents\Ai-foundation\CompVisPython\PoseEstimation\PoseVideos\3.mp4')
     pTime = 0 
 
     detector = poseDetector()
