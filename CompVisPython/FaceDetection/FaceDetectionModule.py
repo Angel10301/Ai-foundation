@@ -1,13 +1,16 @@
-import cv2
-import mediapipe as mp
-import time 
+# Face Detection Module using MediaPipe
+# Provides a reusable FaceDetector class for detecting faces in images/videos
+
+import cv2          
+import mediapipe as mp 
+import time       
 
 class FaceDetector():
     def __init__(self, minDetectionCon = 0.5):
         self.minDetectionCon = minDetectionCon
-        self.mpFaceDetection = mp.solutions.face_detection
-        self.mpDraw = mp.solutions.drawing_utils
-        self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionCon)
+        self.mpFaceDetection = mp.solutions.face_detection  # MediaPipe face detection module
+        self.mpDraw = mp.solutions.drawing_utils           # MediaPipe drawing utilities
+        self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionCon)  # Face detector instance
 
     def findFaces(self, img, draw = True):
 
@@ -28,7 +31,7 @@ class FaceDetector():
                     cv2.putText(img, f'{int(detection.score[0]*100)}%', (bbox[0], bbox[1] - 20), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 0), 2) #Putting the fps text in the video
 
         return img, bboxs
-    # The box around the faces and its marks.
+    # The box around the faces and its marks. 
     def fancyDraw(self, img, bbox, l=30, t=7, rt= 1):
         x, y, w, h= bbox
         x1, y1 = x + w, y + h
