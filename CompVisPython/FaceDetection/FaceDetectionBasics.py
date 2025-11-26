@@ -1,23 +1,26 @@
 import cv2
 import mediapipe as mp
 import time 
-
+# Open video file using OpenCV's Video Capture
 cap = cv2.VideoCapture(r'C:\Users\advan\Documents\Ai-foundation\CompVisPython\FaceDetection\FaceVideos\1.mp4')
 pTime = 0
 
+# Initialzing mediapipe solutions for face detection and drawing utilities
 mpFaceDetection = mp.solutions.face_detection
 mpDraw = mp.solutions.drawing_utils
 faceDetection = mpFaceDetection.FaceDetection()
 
+# Main loop to process each frame
 while True:
     success, img = cap.read()
 
-    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Converts image from BGR to RGB
     results = faceDetection.process(imgRGB)
     print(results)
 
-    if results.detections:
-        for id, detection in enumerate(results.detections):
+    # Check if any faces were detected in the frame
+    if results.detections: 
+        for id, detection in enumerate(results.detections): # Iterate over eac detected face
             mpDraw.draw_detection(img, detection)
             #print(id, detection)
             #print(detection.score)

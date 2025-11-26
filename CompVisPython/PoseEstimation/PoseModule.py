@@ -5,15 +5,17 @@ import time
 # A class for the Pose detector.  
 class poseDetector():
     def __init__(self, mode=False, upBody=False, smooth=True, detectionCon=0.5, trackCon=0.5):
+        # Initializing parameters for the pose detection model
         self.mode = mode
         self.upBody = upBody
         self.smooth = smooth
         self.detectionCon = detectionCon
         self.trackCon = trackCon
-
+        # Mediapipe drawing util and pose estimation solutions
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
 
+        # Create the pose object with specified configurations
         self.pose = self.mpPose.Pose(
             static_image_mode=self.mode,
             model_complexity=1,
@@ -24,8 +26,8 @@ class poseDetector():
         )
 
     def findPose(self, img, draw=True):
-        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        self.results = self.pose.process(imgRGB)
+        imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # Convert BGR to RGB
+        self.results = self.pose.process(imgRGB) # process the RGB image with mediapipe pose estimtion to detect pose landmarks
         if self.results.pose_landmarks:
             if draw:
                 self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
@@ -48,11 +50,12 @@ def main():
     pTime = 0 
 
     detector = poseDetector()
-
+    # Main loop to process each frame of the video
     while True:
         success, img = cap.read()
         img = detector.findPose(img)
         lmList = detector.findPosition(img, draw=False)
+        # If land marks are detected 
         if len(lmList) != 0:
             print(lmList[14]) # Using the List "[]" we can pick any landmark positon and isolate the location in the terminal i.e. lmList[14].
             cv2.circle(img, (lmList[14][1], lmList[14][2]), 15, (0, 20, 255), cv2.FILLED)
